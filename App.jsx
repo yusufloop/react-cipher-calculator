@@ -77,7 +77,7 @@ export default function App() {
         initialRouteName='="Home'
         screenOptions={{ headerShown: true }}
       >
-        <Drawer.Screen name="Feed" component={HomeStackNavigator} />
+        <Drawer.Screen name="Home" component={HomeStackNavigator} />
         <Drawer.Screen name="Settings" component={SettingsScreen} />
       </Drawer.Navigator>
     </NavigationContainer>
