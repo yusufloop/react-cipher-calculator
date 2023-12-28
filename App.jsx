@@ -1,127 +1,114 @@
 import { StatusBar } from 'expo-status-bar';
-import {
-  Alert,
-  Button,
-  FlatList,
-  Pressable,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import IconSettings from './IconSettings';
+import React from 'react';
+import { Button, StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer, useFocusEffect } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
-import { useEffect, useState } from 'react';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import 'react-native-gesture-handler';
 
-export default function App() {
-const[text,setText] = useState('');
-const[results,setResults] = useState([]);
+function HomeScreen({ navigation }) {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>Home Screen</Text>
+      <Button
+        title="Go to Details"
+        onPress={() =>
+          navigation.navigate('Details', {
+            itemId: 86,
+            otherParam: 'anything you want here',
+          })
+        }
+      />
+    </View>
+  );
+}
 
-useEffect(() => {
-  fetch('https://www.reddit.com/r/aww.json')
-  .then(response => response.json())
-  .then(resultsFromServer => {
-    setResults(resultsFromServer.data.children)
-  })
+function DetailsScreen({ route }) {
+  useFocusEffect(
+    React.useCallback(() => {
+      console.log('details screen focused');
 
- 
-}, [])
-
-
-const DATA = [
-  {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    title: 'First Item',
-  },
-  {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-    title: 'Second Item',
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d72',
-    title: 'Third Item',
-  },
-];
-
-const renderItem = ({ item }) => (
-  <View style={{ marginTop: 10 }}>
-    <Text>{item.data.title}</Text>
-  </View>
-);
-
-
-  function onPress() {
-    Alert.alert('Touchable opacity pressed');
-  }
+      return () => {
+        console.log('details screen unfocused');
+      };
+    }, [])
+  );
+  // const { itemId, otherParam } = route.params;
 
   return (
-    <View style={styles.container}>
-      <Text style={{ color: 'red' }}>
-        Open Edit App.js to start working on your app!
-      </Text>
-      <Button
-        title="Press me"
-        color="red"
-        onPress={() => Alert.alert('Simple Button pressed')}
-      />
-      <TouchableOpacity style={styles.button} onPress={onPress}>
-        <Text>
-          {/* <IconSettings width={16} height={16} /> */}
-          <Ionicons name="ios-settings" size={24} color="black" />
-        </Text>
-        <Text>Press Here</Text>
-      </TouchableOpacity>
-      <View style={{ marginTop: 60 }}>
-        <Pressable
-          style={styles.button}
-          onPressIn={() => console.log('pressing in')}
-          onPressOut={() => console.log('pressing out')}
-          onLongPress={() => console.log('long Press')}
-          hitSlop={20}
-        >
-          <Text>Pressable Here</Text>
-        </Pressable>
-      </View>
-      <View>
-      <TextInput
-        style={styles.input}
-        onChangeText={setText}
-        value={text}
-      />
-      <Text>{text}</Text>
-      </View>
-      <View>
-      <FlatList
-      style={{ marginHorizontal:20}}
-        data={results}
-        renderItem={renderItem }
-        keyExtractor={item => item.id}
-      />
-      </View>
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      {/* <Text>Details Screen for {itemId}</Text>
+      <Text>{otherParam}</Text> */}
+      <Text>Details Screen</Text>
     </View>
+  );
+}
+
+const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
+const Drawer = createDrawerNavigator();
+
+// export default function App() {
+//   return (
+//     <NavigationContainer>
+//       <Stack.Navigator>
+//         <Stack.Screen
+//           name="Home"
+//           component={HomeScreen}
+//           options={{ title: 'My Home' }}
+//         />
+//         <Stack.Screen name="Details" component={DetailsScreen} />
+//       </Stack.Navigator>
+//     </NavigationContainer>
+//   );
+// }
+
+// export default function App() {
+//   return (
+//     <NavigationContainer>
+//       <Tab.Navigator>
+//         <Tab.Screen
+//           name="Home"
+//           component={HomeScreen}
+//           options={{
+//             tabBarLabel: 'My Home',
+//             tabBarIcon: ({ color, size }) => (
+//               <Ionicons name="home" size={size} color={color} />
+//             ),
+//           }}
+//         />
+//         <Tab.Screen
+//           name="Details"
+//           component={DetailsScreen}
+//           options={{
+//             tabBarLabel: 'Details',
+//             tabBarIcon: ({ color, size }) => (
+//               <Ionicons name="settings" size={size} color={color} />
+//             ),
+//           }}
+//         />
+//       </Tab.Navigator>
+//     </NavigationContainer>
+//   );
+// }
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Drawer.Navigator initialRouteName="Home">
+        <Drawer.Screen name="Home" component={HomeScreen} />
+        <Drawer.Screen name="Details" component={DetailsScreen} />
+      </Drawer.Navigator>
+    </NavigationContainer>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
+    flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    marginTop: 60,
-    // justifyContent: 'center',
-  },
-  button: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#DDDDDD',
-    padding: 10,
-  },
-  input: {
-    height: 40,
-    margin: 12,
-    borderWidth: 1,
-    width: 300,
-    padding: 10,
+    justifyContent: 'center',
   },
 });
