@@ -12,7 +12,7 @@ import { EvilIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 
 export default function HomeScreen({ navigation }) {
-  const DATA: ItemData[] = [
+  const DATA = [
     {
       id: '1',
       title: 'First Item',
@@ -121,7 +121,7 @@ export default function HomeScreen({ navigation }) {
             <EvilIcons
               name="retweet"
               size={22}
-              color="grey"
+              color="gray"
               style={{ marginRight: 2 }}
             />
             <Text style={styles.textGray}>56</Text>
@@ -130,7 +130,7 @@ export default function HomeScreen({ navigation }) {
             <EvilIcons
               name="heart"
               size={22}
-              color="grey"
+              color="gray"
               style={{ marginRight: 2 }}
             />
             <Text style={styles.textGray}>106</Text>
@@ -139,7 +139,7 @@ export default function HomeScreen({ navigation }) {
             <EvilIcons
               name={Platform.OS === 'ios' ? 'share-apple' : 'share-google'}
               size={22}
-              color="grey"
+              color="gray"
               style={{ marginRight: 2 }}
             />
           </TouchableOpacity>
