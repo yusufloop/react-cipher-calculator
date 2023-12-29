@@ -127,6 +127,7 @@ export default function ProfileScreen() {
         </View>
       </View>
 
+
       <View style={styles.separator}></View>
     </View>
   );

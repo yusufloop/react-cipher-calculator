@@ -1,146 +1,96 @@
-import React from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
-import { Entypo } from '@expo/vector-icons';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, Image, TextInput } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { EvilIcons } from '@expo/vector-icons';
 
-export default function NewTweet() {
+export default function NewTweet({ navigation }) {
+  const [tweet, setTweet] = useState('');
+
+  function sendTweet() {
+    navigation.navigate('Tab');
+  }
+
   return (
     <View style={styles.container}>
-      <View style={styles.profileContainer}>
-        <TouchableOpacity style={styles.flexRow}>
-          <Image
-            style={styles.avatar}
-            source={{ uri: 'https://reactnative.dev/img/tiny_logo.png' }}
-          />
-          <View style={styles.textContainer}>
-            <Text style={styles.tweetName}>Yusuf</Text>
-            <Text style={styles.tweetHandle}>@Yusuf</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Entypo name="dots-three-vertical" size={24} color="gray" />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.tweetContentContainer}>
-        <Text style={styles.tweetContainer}>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod soluta
-          doloremque corporis eveniet! Dicta, iure quibusdam. Fugiat accusantium
-          nisi tempora.
+      <View style={styles.tweetButtonContainer}>
+        <Text style={tweet.length > 250 ? styles.textRed : styles.textGray}>
+          Character left: {280 - tweet.length}
         </Text>
+        <TouchableOpacity
+          style={styles.tweetButton}
+          onPress={() => sendTweet()}
+        >
+          <Text style={styles.tweetButtonText}>Tweet</Text>
+        </TouchableOpacity>
       </View>
-      <View style={styles.tweetEngagement}>
-        <View style={styles.flexRow}>
-          <Text style={styles.tweetEngagementNumber}>43643</Text>
-          <Text style={styles.tweetEngagementLabel}>Retweet</Text>
-        </View>
-        <View style={[styles.flexRow, styles.ml4]}>
-          <Text style={styles.tweetEngagementNumber}>443</Text>
-          <Text style={styles.tweetEngagementLabel}>Qoute Tweet</Text>
-        </View>
-        <View style={[styles.flexRow, styles.ml4]}>
-          <Text style={styles.tweetEngagementNumber}>3,523</Text>
-          <Text style={styles.tweetEngagementLabel}>Likes</Text>
-        </View>
-      </View>
-      <View style={[styles.tweetEngagement, styles.spaceAround]}>
-        <TouchableOpacity>
-          <EvilIcons
-            name="comment"
-            size={32}
-            color="grey"
-            style={{ marginRight: 2 }}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <EvilIcons
-            name="retweet"
-            size={32}
-            color="grey"
-            style={{ marginRight: 2 }}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <EvilIcons
-            name="heart"
-            size={32}
-            color="grey"
-            style={{ marginRight: 2 }}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <EvilIcons
-            name={Platform.OS === 'ios' ? 'share-apple' : 'share-google'}
-            size={22}
-            color="grey"
-            style={{ marginRight: 2 }}
-          />
-        </TouchableOpacity>
+
+      <View style={styles.tweetBoxContainer}>
+        <Image
+          style={styles.avatar}
+          source={{ uri: 'https://reactnative.dev/img/tiny_logo.png' }}
+        />
+        <TextInput
+          style={styles.input}
+          onChangeText={setTweet}
+          value={tweet}
+          placeholder="What's happening?"
+          placeholderTextColor="gray"
+          multiline
+          maxLength={280}
+        />
       </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'white',
-  },
-  flexRow: {
-    flexDirection: 'row',
-  },
-  textContainer: {
-    marginLeft: 8,
-  },
-  profileContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingVertical: 12,
-    paddingHorizontal: 10,
-  },
-  avatar: {
-    width: 50,
-    height: 50,
-    marginRight: 8,
-    borderRadius: 25,
-  },
-  tweetName: {
-    fontWeight: 'bold',
-    color: '#222222',
-  },
-  tweetHandle: {
+  textGray: {
     color: 'gray',
-    marginTop: 4,
   },
-  tweetContentContainer: {
-    paddingHorizontal: 20,
-    paddingBottom: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#e5e7eb',
-  },
-  tweetContent: {
-    fontSize: 20,
-    lineHeight: 30,
-  },
-  tweetEngagement: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 10,
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: '#e5e7eb',
-  },
-  tweetEngagementNumber: {
-    fontWeight: 'bold',
-  },
-  tweetEngagementLabel: {
-    color: 'gray',
-    marginLeft: 6,
-  },
-  spaceAround:{
-    justifyContent: 'space-around',
+  textRed: {
+    color: 'red',
   },
   ml4: {
     marginLeft: 16,
+  },
+  container: {
+    flex: 1,
+    backgroundColor: 'white',
+    paddingVertical: 12,
+    paddingHorizontal: 10,
+  },
+  tweetButtonContainer: {
+    paddingVertical: 4,
+    paddingHorizontal: 6,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  tweetButton: {
+    backgroundColor: '#1d9bf1',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 24,
+  },
+  tweetButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
+  },
+  tweetBoxContainer: {
+    flexDirection: 'row',
+    paddingTop: 10,
+  },
+  avatar: {
+    width: 42,
+    height: 42,
+    marginRight: 8,
+    marginTop: 10,
+    borderRadius: 21,
+  },
+  input: {
+    flex: 1,
+    fontSize: 18,
+    lineHeight: 28,
+    padding: 10,
+    marginLeft: 8,
   },
 });
