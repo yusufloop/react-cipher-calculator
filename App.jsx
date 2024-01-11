@@ -9,10 +9,12 @@ import HomeScreen from './screens/HomeScreen';
 import NewTweet from './screens/NewTweet';
 import TweetScreen from './screens/TweetScreen';
 import ProfileScreen from './screens/ProfileScreen';
-import SettingsScreen from './screens/SettingsScreen';
+import PigPenCipherScreen from './screens/PigPenCipherScreen';
+import CeaserCipherScreen from './screens/CeaserCipherScreen';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import SearchScreen from './screens/SearchScreen';
 import NotificationsScreen from './screens/NotificationsScreen';
+import ChallengeScreen from './screens/ChallengeScreen';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -78,7 +80,9 @@ export default function App() {
         screenOptions={{ headerShown: true }}
       >
         <Drawer.Screen name="Home" component={HomeStackNavigator} />
-        <Drawer.Screen name="Settings" component={SettingsScreen} />
+        <Drawer.Screen name="Ceaser Cipher" component={CeaserCipherScreen} />
+        <Drawer.Screen name="PigPen Cipher" component={PigPenCipherScreen} />
+        <Drawer.Screen name="Challenges" component={ChallengeScreen} />
       </Drawer.Navigator>
     </NavigationContainer>
   );
